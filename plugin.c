@@ -16,14 +16,16 @@
 
 #include <nfp.h>
 
+#include <stdlib.h>
 
 #define BUCKET_SIZE 7
 
 __shared __export __addr40 __emem uint32_t i;
 
 int pif_plugin_lookup_state(EXTRACTED_HEADERS_T *headers, MATCH_DATA_T *match_data) {
-    uint32_t integer = rand()%10 + 1;
-    mem_write_atomic(&integer, &i, sizeof(integer))
+    __xwrite uint32_t integer;
+    integer = rand()%10 + 1;
+    mem_write_atomic(&integer, &i, sizeof(integer));
     return PIF_PLUGIN_RETURN_FORWARD;
 }
 
